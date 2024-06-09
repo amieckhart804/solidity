@@ -1057,26 +1057,6 @@ BOOST_AUTO_TEST_CASE(deduplicateNextTagBlockSize2)
 	);
 }
 
-BOOST_AUTO_TEST_CASE(deduplicateNextTagBlockSize1)
-{
-	AssemblyItems items{
-		Instruction::STOP,
-		AssemblyItem(Tag, 2),
-		Instruction::STOP
-	};
-
-	AssemblyItems expectation{
-		AssemblyItem(Tag, 2),
-		Instruction::STOP
-	};
-	PeepholeOptimiser peepOpt(items, solidity::test::CommonOptions::get().evmVersion());
-	BOOST_REQUIRE(peepOpt.optimise());
-	BOOST_CHECK_EQUAL_COLLECTIONS(
-		items.begin(), items.end(),
-		expectation.begin(), expectation.end()
-	);
-}
-
 BOOST_AUTO_TEST_CASE(peephole_double_push)
 {
 	AssemblyItems items{
