@@ -564,33 +564,6 @@ struct DeduplicateNextTagSize2 : SimplePeepholeOptimizerMethod<DeduplicateNextTa
 	}
 };
 
-struct DeduplicateNextTagSize1 : SimplePeepholeOptimizerMethod<DeduplicateNextTagSize1>
-{
-	static bool applySimple(
-		AssemblyItem const& _breakingItem,
-		AssemblyItem const& _tag,
-		AssemblyItem const& _breakingItem2,
-		std::back_insert_iterator<AssemblyItems> _out
-	)
-	{
-		if (
-			_breakingItem == _breakingItem2 &&
-			_tag.type() == Tag &&
-			(
-				_breakingItem == Instruction::JUMP ||
-				SemanticInformation::terminatesControlFlow(_breakingItem)
-			)
-		)
-		{
-			*_out = _tag;
-			*_out = _breakingItem2;
-			return true;
-		}
-
-		return false;
-	}
-};
-
 void applyMethods(OptimiserState&)
 {
 	assertThrow(false, OptimizerException, "Peephole optimizer failed to apply identity.");
